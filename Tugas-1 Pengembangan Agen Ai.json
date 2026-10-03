@@ -1,0 +1,115 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Assalamu'alaikum... 👋\nNama saya Hafidz. Apa yang bisa saya bantu hari ini?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -304,
+        -144
+      ],
+      "id": "5d048fa2-2cb8-4907-b630-e01a695fa51f",
+      "name": "When chat message received",
+      "webhookId": "000c36f2-f775-4446-ad32-954efde3a075"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda seorang spesialis pemasaran produk dari perusahaan NF Academy. Tugas Anda membantu menjawab pertanyaan yang berkaitan dengan NF Academy sesuai dengan Dasar Pengetahuan Produk di bawah ini:\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -112,
+        -144
+      ],
+      "id": "16de162f-8586-4efe-b48d-9f4033fb475a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        64
+      ],
+      "id": "06a624c2-1759-4971-bc6e-bc5b91100ce4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "7BAjbaylrwWqxpfd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        -16,
+        32
+      ],
+      "id": "e4acad04-9f16-4c11-ba62-589fc536fd92",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1e18c1f9-a4cb-46ed-8a8c-27e211a8460e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "o9oHdo1oOpw0LG2z",
+  "tags": []
+}
