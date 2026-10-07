@@ -1,0 +1,160 @@
+{
+  "name": "Tugas 3 Pengembangan Agen AI Tanpa Koding",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu asisten pelatihan NF Academy, yang siap menjawab pertanyaan dengan baik sesuai dengan bahasa yang digunakan penanya.\nJawablah pertanyaan tentang produk, deskripsi/uraian, biaya/harga, dan tempat/lokasi pelatihan sesuai dengan informasi yang tersedia dalam Tool Get row(s) in sheet in Google Sheets.\nJika kamu tidak menemukan informasi produk, harga, dan tempat pelatihan, jangan mengarang jawaban. Berikan jawaban, \"Maaf, saya belum memiliki data yang Anda minta. Silakan lihat web nfacademy.id\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "c6c76af3-02b3-446d-8b71-8af24990f45c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        96,
+        208
+      ],
+      "id": "afa03cf1-6f19-42ad-a816-58e65f0682b3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "u5OmqO7jCINpO57u",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1rN_5xXfdZb7wRsWhIWZmt_BUBIjaDdf8YqVmgkfsLKo",
+          "mode": "list",
+          "cachedResultName": "n8n produk",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rN_5xXfdZb7wRsWhIWZmt_BUBIjaDdf8YqVmgkfsLKo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 657607429,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1rN_5xXfdZb7wRsWhIWZmt_BUBIjaDdf8YqVmgkfsLKo/edit#gid=657607429"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        240
+      ],
+      "id": "1e8efd4d-97ff-4395-843a-8b0453f6d2c2",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "j4OdLkuFE7QRy122",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "0cc92755-b663-4168-aa5e-1b89a48c7cc4",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi,\nAku Lalu Firman, Ada yang bisa aku bantu?\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f37e58a9-37fa-4785-9063-c043bd6bc3e1",
+      "name": "When chat message received",
+      "webhookId": "51589d15-aae0-45ed-9a51-9c9b14f04d2a"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "67e5a5f8-aa19-4141-9bd4-8a62b729d17e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dc96f10ae7dc95d3c138575ba243a0a167923dbcb524841d451aadf9135d5fb3"
+  },
+  "nodeGroups": [],
+  "id": "3sYn0wSepkD3EtL6",
+  "tags": []
+}
